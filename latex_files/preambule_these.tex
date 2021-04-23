@@ -114,3 +114,45 @@
 	linkcolor= linkcolor, % choix de la couleur des liens internes (table des matières, etc.)
 	citecolor=linkcolor % choix de la couleur des liens de citations
 }
+
+\usepackage{listings}
+\definecolor{darkWhite}{rgb}{0.94,0.94,0.94}
+ 
+\lstset{
+  aboveskip=3mm,
+  belowskip=-2mm,
+  backgroundcolor=\color{darkWhite},
+  basicstyle=\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{red},
+  deletekeywords={...},
+  escapeinside={\%*}{*)},
+  extendedchars=true,
+  framexleftmargin=16pt,
+  framextopmargin=3pt,
+  framexbottommargin=6pt,
+  frame=tb,
+  keepspaces=true,
+  keywordstyle=\color{blue},
+  language=Python,
+  morekeywords={*,...},
+  numbers=left,
+  numbersep=10pt,
+  numberstyle=\tiny\color{black},
+  rulecolor=\color{black},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  stepnumber=1,
+  stringstyle=\color{gray},
+  tabsize=4,
+  title=\lstname,
+  literate=%
+    {é}{{\'e}}1
+    {è}{{\`e}}1
+    {ê}{{\`e}}1
+    {à}{{\`a}}1
+    {ô}{{\'o}}1
+}
