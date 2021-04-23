@@ -280,3 +280,38 @@ Texte de la citation.
 \qauthor{Auteur}
 \end{savequote}
 \end{verbatim}}
+
+\subsection{Intégration de code}
+\label{chap1:sec:exemple_code}
+
+Que serait une thèse sans code ?
+
+\noindent Le package ``listings" permet d'intégrer des blocs de codes avec une personnalisation de la colorisation syntaxique. Pour en faire appel :
+{\small \begin{verbatim}
+\begin{lstlisting}
+Ton code ici
+\end{lstlisting}
+\end{verbatim}}
+\noindent Par défaut voici un exemple de la syntaxe donnée avec du python :
+\begin{lstlisting}
+# Création du circuit quantique
+q = QuantumRegister(nb_qubits)
+c = ClassicalRegister(nb_qubits)
+
+qc = QuantumCircuit(q, c)
+
+# Pairing aléatoire
+i = 0
+while i < nb_qubits:
+    cible_qbit = random.choice(random_circuit)
+    qc.rx(math.pi / 2, q[cible_qbit])
+    random_circuit.remove(cible_qbit)
+    if len(random_circuit) != 0:
+        target_qbit = random.choice(random_circuit)
+        qc.cx(q[cible_qbit], q[target_qbit])
+        random_circuit.remove(target_qbit)
+    i += 2
+
+qc.measure(range(nb_qubits), range(nb_qubits))
+\end{lstlisting}
+
