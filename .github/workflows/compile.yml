@@ -1,0 +1,40 @@
+name: Compile latex
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  stable:
+    runs-on: ubuntu-latest
+    env:
+      location_latex: "latex_files"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependancies
+      run: apt-get install -yq texlive texlive-latex-extra
+    - name: Compile Chapitres
+      run: |
+        cd ${{ env.location_latex }}
+        for i in 4; do
+          pdflatex -interaction=nonstopmode compilation_chapitre1.tex
+        done
+        
+    - name: Compile Full document
+      run: |
+        cd ${{ env.location_latex }}
+        for i in 4; do
+          pdflatex -interaction=nonstopmode compilation_these.tex
+          pdflatex -interaction=nonstopmode compilation_these_avec_page_de_garde_et_abstract.tex
+        done
+          
+    - name: Move examples
+      run: |
+        cp latex_files/compilation_chapitre1.pdf examples/explanations_packages.pdf
+        cp latex_files/compilation_these_avec_page_de_garde_et_abstract.pdf examples/complete_thesis.pdf
+        
+    - name: Pull modif
+      run: git pull
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Compile latex
+        file_pattern: **.pdf
+        
