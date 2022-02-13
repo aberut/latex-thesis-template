@@ -19,6 +19,7 @@ jobs:
         cd ${{ env.location_latex }}
         for i in {0..3}; do
           pdflatex -interaction=nonstopmode compilation_chapitre1.tex
+          bibtex compilation_chapitre1
         done
         
     - name: Compile Full document
@@ -26,7 +27,9 @@ jobs:
         cd ${{ env.location_latex }}
         for i in {0..3}; do
           pdflatex -interaction=nonstopmode compilation_these.tex
+          bibtex compilation_these
           pdflatex -interaction=nonstopmode compilation_these_avec_page_de_garde_et_abstract.tex
+          bibtex compilation_these_avec_page_de_garde_et_abstract
         done
           
     - name: Move examples
