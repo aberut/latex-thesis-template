@@ -9,8 +9,11 @@ jobs:
       location_latex: "latex_files"
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependancies
+    - name: Install latex
       run: sudo apt-get install -yq texlive texlive-latex-extra
+    - name: Install extra package need
+      run: sudo apt-get install -yq texlive-science
+      
     - name: Compile Chapitres
       run: |
         cd ${{ env.location_latex }}
