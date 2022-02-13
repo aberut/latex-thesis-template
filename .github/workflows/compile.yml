@@ -15,27 +15,27 @@ jobs:
       run: sudo apt-get install -yq texlive-science
     
     - name: Compile Chapitre 1
-      uses: ./.github/actions/action_compile
+      uses: ./.github/actions/compile
       with:
         document_tex: "compilation_chapitre1.tex"
         location_file: ${{ env.location_latex }}
         
     - name: Compile these doc
-      uses: ./.github/actions/action_compile
+      uses: ./.github/actions/compile
       with:
         document_tex: "compilation_these.tex"
         location_file: ${{ env.location_latex }}
     
     - name: Compile Full document
-      uses: ./.github/actions/action_compile
+      uses: ./.github/actions/compile
       with:
         document_tex: "compilation_these_avec_page_de_garde_et_abstract.tex"
         location_file: ${{ env.location_latex }}
           
     - name: Move examples
       run: |
-        cp latex_files/compilation_chapitre1.pdf examples/explanations_packages.pdf
-        cp latex_files/compilation_these_avec_page_de_garde_et_abstract.pdf examples/complete_thesis.pdf
+        cp ${{ env.location_latex }}/compilation_chapitre1.pdf examples/explanations_packages.pdf
+        cp ${{ env.location_latex }}/compilation_these_avec_page_de_garde_et_abstract.pdf examples/complete_thesis.pdf
         
     - name: Pull modif
       run: git pull
