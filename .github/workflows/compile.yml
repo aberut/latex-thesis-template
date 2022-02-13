@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install latex
-      run: sudo apt-get install -yq texlive texlive-latex-extra
+      run: sudo apt-get install -yq texlive texlive-latex-extra texlive-lang-all
     - name: Install extra package need
       run: sudo apt-get install -yq texlive-science
     
