@@ -3,7 +3,7 @@ name: Compile latex
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  stable:
+  compile:
     runs-on: ubuntu-latest
     env:
       location_latex: "latex_files"
