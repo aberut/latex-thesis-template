@@ -18,7 +18,7 @@ jobs:
       run: |
         cd ${{ env.location_latex }}
         for i in {0..3}; do
-          pdflatex -interaction=nonstopmode compilation_chapitre1.tex
+          pdflatex -interaction=nonstopmode compilation_chapitre1.tex || true
           bibtex compilation_chapitre1
         done
         
@@ -26,9 +26,9 @@ jobs:
       run: |
         cd ${{ env.location_latex }}
         for i in {0..3}; do
-          pdflatex -interaction=nonstopmode compilation_these.tex
+          pdflatex -interaction=nonstopmode compilation_these.tex || true
           bibtex compilation_these
-          pdflatex -interaction=nonstopmode compilation_these_avec_page_de_garde_et_abstract.tex
+          pdflatex -interaction=nonstopmode compilation_these_avec_page_de_garde_et_abstract.tex || true
           bibtex compilation_these_avec_page_de_garde_et_abstract
         done
           
