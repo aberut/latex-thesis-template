@@ -13,24 +13,24 @@ jobs:
       run: sudo apt-get install -yq texlive texlive-latex-extra
     - name: Install extra package need
       run: sudo apt-get install -yq texlive-science
-      
-    - name: Compile Chapitres
-      run: |
-        cd ${{ env.location_latex }}
-        for i in {0..3}; do
-          pdflatex -interaction=nonstopmode compilation_chapitre1.tex || true
-          bibtex compilation_chapitre1
-        done
+    
+    - name: Compile Chapitre 1
+      uses: ./.github/actions/action_compile
+      with:
+        document_tex: "compilation_chapitre1.tex"
+        location_file: ${{ env.location_latex }}
         
+    - name: Compile these doc
+      uses: ./.github/actions/action_compile
+      with:
+        document_tex: "compilation_these.tex"
+        location_file: ${{ env.location_latex }}
+    
     - name: Compile Full document
-      run: |
-        cd ${{ env.location_latex }}
-        for i in {0..3}; do
-          pdflatex -interaction=nonstopmode compilation_these.tex || true
-          bibtex compilation_these
-          pdflatex -interaction=nonstopmode compilation_these_avec_page_de_garde_et_abstract.tex || true
-          bibtex compilation_these_avec_page_de_garde_et_abstract
-        done
+      uses: ./.github/actions/action_compile
+      with:
+        document_tex: "compilation_these_avec_page_de_garde_et_abstract.tex"
+        location_file: ${{ env.location_latex }}
           
     - name: Move examples
       run: |
