@@ -39,5 +39,6 @@ jobs:
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Compile latex
-        file_pattern: "*.pdf"
+        branch: autom
+        file_pattern: ${{ env.location_latex }}/*.pdf examples
         push_options: '--force'
