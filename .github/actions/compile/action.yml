@@ -13,11 +13,13 @@ runs:
     - name: Run Unit Tests
       id: checks
       run: |
+        bib_file=$(echo ${{ inputs.document_tex }})
         cd ${{ inputs.location_file }}
+        
         latex -interaction=nonstopmode ${{ inputs.document_tex }} || true
-        bibtex ${${{ inputs.document_tex }}%.*}
+        bibtex ${bib_file%.*}
         for i in {0..3}; do
           pdflatex -interaction=nonstopmode ${{ inputs.document_tex }}
         done
-        echo "::notice file=${{ inputs.document_tex }}::Compilation of ${${{ inputs.document_tex }}%.*}.pdf is done !"
+        echo "::notice file=${{ inputs.document_tex }}::Compilation of ${bib_file%.*}.pdf is done !"
       shell: bash
