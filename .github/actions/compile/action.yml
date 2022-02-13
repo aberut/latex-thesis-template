@@ -15,7 +15,7 @@ runs:
       run: |
         cd ${{ inputs.location_file }}
         latex -interaction=nonstopmode ${{ inputs.document_tex }}
-        bibtex ${{ inputs.document_tex%.* }}
+        bibtex ${${{ inputs.document_tex }}%.*}
         for i in {0..3}; do
           pdflatex -interaction=nonstopmode ${{ inputs.document_tex }}
         done
