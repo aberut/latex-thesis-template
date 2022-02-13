@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependancies
-      run: apt-get install -yq texlive texlive-latex-extra
+      run: sudo apt-get install -yq texlive texlive-latex-extra
     - name: Compile Chapitres
       run: |
         cd ${{ env.location_latex }}
