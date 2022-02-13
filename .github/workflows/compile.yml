@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install latex
       run: sudo apt-get install -yq texlive texlive-latex-extra texlive-lang-all
-    - name: Install extra package need
+    - name: Install extra package
       run: sudo apt-get install -yq texlive-science
     
     - name: Compile Chapitre 1
