@@ -19,5 +19,5 @@ runs:
         for i in {0..3}; do
           pdflatex -interaction=nonstopmode ${{ inputs.document_tex }}
         done
-        echo "::notice file=${{ inputs.document_tex }}::Compilation of ${{ inputs.document_tex%.* }}.pdf is done !"
+        echo "::notice file=${{ inputs.document_tex }}::Compilation of ${${{ inputs.document_tex }}%.*}.pdf is done !"
       shell: bash
