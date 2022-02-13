@@ -1,0 +1,23 @@
+name: 'Action compile'
+description: 'Compile latex file to pdf'
+inputs:
+  document_tex:
+    description: 'Latex doc'
+    required: true
+  location_file:
+    description: 'Location'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Run Unit Tests
+      id: checks
+      run: |
+        cd ${{ inputs.location_file }}
+        latex -interaction=nonstopmode ${{ inputs.document_tex }}
+        bibtex ${{ inputs.document_tex%.* }}
+        for i in {0..3}; do
+          pdflatex -interaction=nonstopmode ${{ inputs.document_tex }}
+        done
+        echo "::notice file=${{ inputs.document_tex }}::Compilation of ${{ inputs.document_tex%.* }}.pdf is done !"
+      shell: bash
