@@ -5,8 +5,8 @@ inputs:
     description: 'Latex doc'
     required: true
   location_file:
-    description: 'Location'
-    required: true
+    description: 'Location of latex doc'
+    required: false
 runs:
   using: "composite"
   steps:
@@ -14,7 +14,9 @@ runs:
       id: checks
       run: |
         bib_file=$(echo ${{ inputs.document_tex }})
-        cd ${{ inputs.location_file }}
+        if [[ -v "${{ inputs.location_file }}" ]]; then
+          cd ${{ inputs.location_file }}
+        fi
         
         latex -interaction=nonstopmode ${{ inputs.document_tex }} || true
         bibtex ${bib_file%.*}
