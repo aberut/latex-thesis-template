@@ -334,14 +334,14 @@ Il est parfois utile de s'abstraire de la compilation de ses documents latex -->
 location_latex: "latex_files"
 \end{lstlisting}
 \item Ici, ce sont les packages nécessaires à l'installation de l'environnement latex, si des packets en plus sont nécessaires, les ajouter à la liste :
-\begin{lstlisting}
+\noindent\begin{lstlisting}
 - name: Install latex
   run: sudo apt-get install -yq texlive texlive-latex-extra texlive-lang-all
 - name: Install extra package
   run: sudo apt-get install -yq texlive-science
 \end{lstlisting}
 \item Pour chaque fichier dont vous souhaitez générer un pdf, il vous suffit de créer un bloc comme celui-ci :
-\begin{lstlisting}
+\noindent\begin{lstlisting}
 - name: Compile Chapitre 1
   uses: ./.github/actions/compile
   with:
@@ -349,7 +349,7 @@ location_latex: "latex_files"
     location_file: \${{ env.location_latex }}
 \end{lstlisting}
 \item Enfin ce bloc sert juste à copier les fichiers générés finaux dans un autre dossier :
-\begin{lstlisting}
+\noindent\begin{lstlisting}
 - name: Move examples
   run: |
     cp ${{ env.location_latex }}/compilation_chapitre1.pdf examples/explanations_packages.pdf
