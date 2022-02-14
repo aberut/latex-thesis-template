@@ -317,3 +317,43 @@ while i < nb_qubits:
 qc.measure(range(nb_qubits), range(nb_qubits))
 \end{lstlisting}
 
+\subsection{Automatisation / Compilation}
+\label{chap1:sec:exemple_compilation}
+
+\noindent\textit{Merci à Michaël Rollin pour cet ajout !}\bigskip
+
+Il est parfois utile de s'abstraire de la compilation de ses documents latex --> .pdf.\bigskip
+
+\noindent Si vous utilisez ``GitHub'' pour stocker les sources de votre these, vous pouvez automatiser la génération des pdf afin qu'elle se fasse automatiquement à chaque push. Pour ce faire, ce template utilise les ``GitHub Actions'', pour l'utiliser dans votre repo :
+\begin{itemize}
+	\item[$\bullet$] Copié collé le dossier \textit{.github} à la racine de votre repo (comme ici) 
+	\item[$\bullet$] Puis dans le fichier ``.github/workflows/compile.yml'', plusieurs éléments :
+	\begin{itemize}
+		\item \begin{lstlisting}
+		location_latex: "latex_files"
+		\end{lstlisting}
+		Cette variable sert à indiquer l'endroit où sont stockées vos sources .tex
+		\item \begin{lstlisting}
+		- name: Install latex
+		  run: sudo apt-get install -yq texlive texlive-latex-extra texlive-lang-all
+		- name: Install extra package
+		  run: sudo apt-get install -yq texlive-science
+		\end{lstlisting}
+		Ici, ce sont les packages nécessaire à l'installation de l'environnement latex, si des packets en plus sont nécessaire, les ajouter à la liste
+		\item \begin{lstlisting}
+		- name: Compile Chapitre 1
+		  uses: ./.github/actions/compile
+		  with:
+		    document_tex: "compilation_chapitre1.tex"
+		    location_file: \${{ env.location_latex }}
+		\end{lstlisting}
+		Pour chaque fichier dont vous souhaitez générer un pdf, il vous suffit de créer un bloc comme celui-ci.
+		\item \begin{lstlisting}
+		- name: Move examples
+		  run: |
+		    cp ${{ env.location_latex }}/compilation_chapitre1.pdf examples/explanations_packages.pdf
+		    cp ${{ env.location_latex }}/compilation_these_avec_page_de_garde_et_abstract.pdf examples/complete_thesis.pdf
+		\end{lstlisting}
+		Enfin ce bloc sert juste à copier les fichiers générés finaux dans un autre dossier
+	\end{itemize}
+\end{itemize}
