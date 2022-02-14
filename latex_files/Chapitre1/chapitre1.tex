@@ -328,28 +328,27 @@ Il est parfois utile de s'abstraire de la compilation de ses documents latex -->
 \begin{itemize}
 \item[$\bullet$] Copié collé le dossier \textit{.github} à la racine de votre repo (comme ici) 
 \item[$\bullet$] Puis dans le fichier ``.github/workflows/compile.yml'', plusieurs éléments :
-\begin{itemize}
-\item Cette variable sert à indiquer l'endroit où sont stockées vos sources .tex :
+Cette variable sert à indiquer l'endroit où sont stockées vos sources .tex :
 \begin{lstlisting}
 location_latex: "latex_files"
 \end{lstlisting}
-\item Ici, ce sont les packages nécessaires à l'installation de l'environnement latex, si des packets en plus sont nécessaires, les ajouter à la liste :
-\noindent\begin{lstlisting}
+Ici, ce sont les packages nécessaires à l'installation de l'environnement latex, si des packets en plus sont nécessaires, les ajouter à la liste :
+\begin{lstlisting}
 - name: Install latex
   run: sudo apt-get install -yq texlive texlive-latex-extra texlive-lang-all
 - name: Install extra package
   run: sudo apt-get install -yq texlive-science
 \end{lstlisting}
-\item Pour chaque fichier dont vous souhaitez générer un pdf, il vous suffit de créer un bloc comme celui-ci :
-\noindent\begin{lstlisting}
+Pour chaque fichier dont vous souhaitez générer un pdf, il vous suffit de créer un bloc comme celui-ci :
+\begin{lstlisting}
 - name: Compile Chapitre 1
   uses: ./.github/actions/compile
   with:
     document_tex: "compilation_chapitre1.tex"
     location_file: \${{ env.location_latex }}
 \end{lstlisting}
-\item Enfin ce bloc sert juste à copier les fichiers générés finaux dans un autre dossier :
-\noindent\begin{lstlisting}
+Enfin ce bloc sert juste à copier les fichiers générés finaux dans un autre dossier :
+\begin{lstlisting}
 - name: Move examples
   run: |
     cp ${{ env.location_latex }}/compilation_chapitre1.pdf examples/explanations_packages.pdf
