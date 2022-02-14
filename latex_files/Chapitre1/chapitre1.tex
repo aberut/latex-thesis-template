@@ -328,6 +328,7 @@ Il est parfois utile de s'abstraire de la compilation de ses documents latex -->
 \begin{itemize}
 \item[$\bullet$] Copié collé le dossier \textit{.github} à la racine de votre repo (comme ici) 
 \item[$\bullet$] Puis dans le fichier ``.github/workflows/compile.yml'', plusieurs éléments :
+\end{lstlisting}
 Cette variable sert à indiquer l'endroit où sont stockées vos sources .tex :
 \begin{lstlisting}
 location_latex: "latex_files"
@@ -353,5 +354,4 @@ Enfin ce bloc sert juste à copier les fichiers générés finaux dans un autre 
   run: |
     cp ${{ env.location_latex }}/compilation_chapitre1.pdf examples/explanations_packages.pdf
     cp ${{ env.location_latex }}/compilation_these_avec_page_de_garde_et_abstract.pdf examples/complete_thesis.pdf
-\end{lstlisting}
 \end{itemize}
