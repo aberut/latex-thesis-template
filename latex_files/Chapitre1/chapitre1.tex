@@ -327,7 +327,7 @@ Il est parfois utile de s'abstraire de la compilation de ses documents latex -->
 \noindent Si vous utilisez ``GitHub'' pour stocker les sources de votre these, vous pouvez automatiser la génération des pdf afin qu'elle se fasse automatiquement à chaque push. Pour ce faire, ce template utilise les ``GitHub Actions'', pour l'utiliser dans votre repo :
 \begin{itemize}
 \item[$\bullet$] Copié collé le dossier \textit{.github} à la racine de votre repo (comme ici) 
-\item[$\bullet$] Puis dans le fichier ``.github/workflows/compile.yml'', plusieurs éléments :
+\item[$\bullet$] Puis dans le fichier \textit{.github/workflows/compile.yml}, plusieurs éléments :
 \end{itemize}
 Cette variable sert à indiquer l'endroit où sont stockées vos sources .tex :
 \begin{lstlisting}
@@ -346,9 +346,9 @@ Pour chaque fichier dont vous souhaitez générer un pdf, il vous suffit de cré
   uses: ./.github/actions/compile
   with:
     document_tex: "compilation_chapitre1.tex"
-    location_file: \${{ env.location_latex }}
+    location_file: ${{ env.location_latex }}
 \end{lstlisting}
-Enfin ce bloc sert juste à copier les fichiers générés finaux dans un autre dossier :
+Enfin ce bloc sert juste à copier les fichiers générés finaux dans un autre dossier (ici le dossier example) :
 \begin{lstlisting}
 - name: Move examples
   run: |
