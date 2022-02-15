@@ -317,30 +317,31 @@ while i < nb_qubits:
 qc.measure(range(nb_qubits), range(nb_qubits))
 \end{lstlisting}
 
-\subsection{Automatisation / Compilation}
+\subsection{Automatisation / Compilation avec GitHub}
 \label{chap1:sec:exemple_compilation}
 
 \noindent\textit{Merci à Michaël Rollin pour cet ajout !}\bigskip
 
-Il est parfois utile de s'abstraire de la compilation de ses documents latex --> .pdf.\bigskip
+On peut vouloir automatiser la compilation de ses fichiers latex en PDF.\bigskip
 
-\noindent Si vous utilisez ``GitHub'' pour stocker les sources de votre these, vous pouvez automatiser la génération des pdf afin qu'elle se fasse automatiquement à chaque push. Pour ce faire, ce template utilise les ``GitHub Actions'', pour l'utiliser dans votre repo :
+\noindent Si vous utilisez ``GitHub'' pour stocker les sources de votre thèse (ce qui peut être une bonne idée de pour garantir le suivi de votre travail), vous pouvez automatiser la génération des PDF afin qu'elle se fasse à chaque push. Pour ce faire, ce template utilise les ``GitHub Actions''. 
+Pour l'utiliser dans votre repo :
 \begin{itemize}
-\item[$\bullet$] Copié collé le dossier \textit{.github} à la racine de votre repo (comme ici) 
-\item[$\bullet$] Puis dans le fichier \textit{.github/workflows/compile.yml}, plusieurs éléments :
+\item[$\bullet$] Copiez collez le dossier \textit{.github} à la racine de votre repo (comme ici) 
+\item[$\bullet$] Puis dans le fichier \textit{.github/workflows/compile.yml}, vous trouverez plusieurs éléments :
 \end{itemize}
 Cette variable sert à indiquer l'endroit où sont stockées vos sources .tex :
 \begin{lstlisting}
 location_latex: "latex_files"
 \end{lstlisting}
-Ici, ce sont les packages nécessaires à l'installation de l'environnement latex, si des packets en plus sont nécessaires, les ajouter à la liste :
+Ici, ce sont les packages nécessaires à l'installation de l'environnement latex, si des packets en plus sont nécessaires, ajoutez-les à la liste :
 \begin{lstlisting}
 - name: Install latex
   run: sudo apt-get install -yq texlive texlive-latex-extra texlive-lang-all
 - name: Install extra package
   run: sudo apt-get install -yq texlive-science
 \end{lstlisting}
-Pour chaque fichier dont vous souhaitez générer un pdf, il vous suffit de créer un bloc comme celui-ci :
+Pour chaque fichier dont vous souhaitez générer un PDF, il vous suffit de créer un bloc comme celui-ci :
 \begin{lstlisting}
 - name: Compile Chapitre 1
   uses: ./.github/actions/compile
