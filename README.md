@@ -16,6 +16,8 @@ Latex peut être installé sous Mac, Linux et Windows en utilisant la distributi
 
 Plusieurs éditeurs de textes sont adaptés à l'usage de latex, j'utilise personnellement [TeXMaker](https://www.xm1math.net/texmaker/index_fr.html) qui est disponible sous Mac, Linux et Windows.
 
+Pour utiliser les options (facultatives) de compilation automatique sous GitHub ajoutées par [@mickahell](https://github.com/mickahell), une connaissance minimale des logiciels de versionnage (comme [git](https://git-scm.com/)) est nécessaire.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)

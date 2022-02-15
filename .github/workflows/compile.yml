@@ -1,0 +1,46 @@
+name: Compile latex
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    env:
+      location_latex: "latex_files"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install latex
+      run: sudo apt-get install -yq texlive texlive-latex-extra texlive-lang-all
+    - name: Install extra package
+      run: sudo apt-get install -yq texlive-science
+    
+    - name: Compile Chapitre 1
+      uses: ./.github/actions/compile
+      with:
+        document_tex: "compilation_chapitre1.tex"
+        location_file: ${{ env.location_latex }}
+        
+    - name: Compile these doc
+      uses: ./.github/actions/compile
+      with:
+        document_tex: "compilation_these.tex"
+        location_file: ${{ env.location_latex }}
+    
+    - name: Compile Full document
+      uses: ./.github/actions/compile
+      with:
+        document_tex: "compilation_these_avec_page_de_garde_et_abstract.tex"
+        location_file: ${{ env.location_latex }}
+          
+    - name: Move examples
+      run: |
+        cp ${{ env.location_latex }}/compilation_chapitre1.pdf examples/explanations_packages.pdf
+        cp ${{ env.location_latex }}/compilation_these_avec_page_de_garde_et_abstract.pdf examples/complete_thesis.pdf
+        
+    - name: Pull modif
+      run: git pull
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Compile latex
+        file_pattern: ${{ env.location_latex }}/*.pdf examples
+        push_options: '--force'

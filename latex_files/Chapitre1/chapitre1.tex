@@ -317,3 +317,63 @@ while i < nb_qubits:
 qc.measure(range(nb_qubits), range(nb_qubits))
 \end{lstlisting}
 
+\subsection{Automatisation / Compilation avec GitHub}
+\label{chap1:sec:exemple_compilation}
+
+\noindent\textit{Merci à Michaël Rollin pour cet ajout !}\bigskip
+
+Cela peut être une bonne idée d'utiliser logiciel de gestion de versions tel que \href{https://git-scm.com/}{git} lors de la rédaction de sa thèse. Ce dernier permet de conserver un historique des modifications, et de revenir facilement en arrière en cas de besoin. En le couplant avec un service d'hébergement en ligne, tel que \href{https://github.com/}{GitHub} ou \href{https://gitlab.com/gitlab-org/gitlab}{GitLab}, on s'assure d'avoir toujours une copie de sauvegarde en ligne en cas de problème (pensez à sauvegarder régulièrement vos fichiers de thèse !).\bigskip 
+
+Dans le cas où l'on utilise un tel dispositif\footnote{Le but de ce chapitre n'est pas de vous apprendre à utiliser git et/ou github, si cela vous intéresse, il existe de nombreux tutoriels en ligne, ainsi que des formations dispensées directement au sein des laboratoires, n'hésitez pas à demander à votre service informatique s'ils peuvent vous aiguiller sur le sujet.}, on peut vouloir automatiser la compilation de ses fichiers latex en PDF pour ne pas avoir à l'effectuer manuellement à chaque modification apportée. C'est ce que nous vous proposons ici dans un template qui utilise les ``GitHubAction''. En bref : à chaque fois que vous effectuerez un ``push'' vers le serveur distant, un script sera exécuté, qui compilera les fichiers PDF et les ajoutera directement au serveur via un push automatisé (les fichiers PDF seront donc récupérables directement sur le serveur, ou lorsque vous effectuerez un ``pull'' sur votre machine\footnote{La compilation automatique peut prendre quelques minutes, ne vous inquiétez pas si vous ne voyez pas les fichiers apparaître instantanément.}). 
+
+Pour l'utiliser dans votre repository :
+\begin{itemize}
+\item[$\bullet$] Copiez collez le dossier \textit{.github} à la racine de votre repo (comme c'est le cas dans l'exemple ici). 
+\item[$\bullet$] Modifiez le fichier \textit{.github/workflows/compile.yml}, pour le faire correspondre à vos besoin.
+\end{itemize}
+
+Ci dessous, une brève description des fonctions contenues dans le fichier \textit{compile.yml}.
+La variable \textit{location\_{}latex} sert à indiquer l'endroit où sont stockées vos sources .tex (ici, elles sont dans le dossier \textit{latex\_{}files}) :
+\begin{lstlisting}
+location_latex: "latex_files"
+\end{lstlisting}
+
+Ensuite, les packages nécessaires à l'installation de l'environnement latex sont déclarés, si des packages spécifiques sont nécessaires pour compiler votre document, ajoutez-les à cette liste (ils ne seront pas installés sur votre ordinateur, ils serviront juste à l'exécution du script en ligne) :
+\begin{lstlisting}
+- name: Install latex
+  run: sudo apt-get install -yq texlive texlive-latex-extra texlive-lang-all
+- name: Install extra package
+  run: sudo apt-get install -yq texlive-science
+\end{lstlisting}
+
+Pour chaque fichier pour lequel vous souhaitez générer un PDF, il vous suffit de créer un bloc comme celui ci-dessous :
+\begin{lstlisting}
+- name: Compile Chapitre 1
+  uses: ./.github/actions/compile
+  with:
+    document_tex: "compilation_chapitre1.tex"
+    location_file: ${{ env.location_latex }}
+\end{lstlisting}
+
+Ce bloc permet de copier les fichiers générés finaux pour les rendre accessibles dans le dossier de votre choix (ici on copie et renomme le chapitre 1 et le fichier complet dans le sous-dossier \textit{example} du repository) :
+\begin{lstlisting}
+- name: Move examples
+  run: |
+    cp ${{ env.location_latex }}/compilation_chapitre1.pdf examples/explanations_packages.pdf
+    cp ${{ env.location_latex }}/compilation_these_avec_page_de_garde_et_abstract.pdf examples/complete_thesis.pdf
+\end{lstlisting}
+
+Enfin, ce bloc indique au script d'effectuer un push sur le serveur avec les nouveaux fichiers générés:
+\begin{lstlisting}
+- name: Pull modif
+  run: git pull
+- uses: stefanzweifel/git-auto-commit-action@v4
+  with:
+    commit_message: Compile latex
+    file_pattern: ${{ env.location_latex }}/*.pdf examples
+    push_options: '--force'
+\end{lstlisting}
+
+Si le document latex comporte des erreurs, la compilation automatique échouera, on peut alors avoir accès aux logs sur le serveur GitHub (pour trouver ce qui a causé l'erreur de compilation).\bigskip
+
+\emph{Remarque} : Si vous ne souhaitez pas utiliser cette compilation automatique, vous pouvez tout à fait faire sans (par exemple en supprimant le sous-dossier \textit{.github} après avoir téléchargé ou cloné ce repository).
